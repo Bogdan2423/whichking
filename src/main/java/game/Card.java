@@ -8,9 +8,11 @@ public class Card {
     private Map<Resource, Integer> resourcesOnAccept=new LinkedHashMap<>();
     private Map<Resource, Integer> resourcesOnDecline=new LinkedHashMap<>();
     private String description;
+    private String acceptMessage;
+    private String declineMessage;
 
     Card(int militaryOnAccept, int goldOnAccept, int foodOnAccept, int techOnAccept, int militaryOnDecline, int goldOnDecline, int foodOnDecline, int techOnDecline,
-         String description){
+         String description, String acceptMessage, String declineMessage){
         resourcesOnAccept.put(Resource.Military,militaryOnAccept);
         resourcesOnAccept.put(Resource.Gold,goldOnAccept);
         resourcesOnAccept.put(Resource.Food,foodOnAccept);
@@ -22,9 +24,11 @@ public class Card {
         resourcesOnDecline.put(Resource.Tech,techOnDecline);
 
         this.description=description;
+        this.acceptMessage=acceptMessage;
+        this.declineMessage=declineMessage;
     }
 
-    public String getDescription(){return description;}
+
 
     public Map<Resource,Integer> getResources(boolean accepted){
         Map<Resource,Integer> returnMap=new LinkedHashMap<>();
@@ -41,4 +45,7 @@ public class Card {
         return returnMap;
     }
 
+    public String getDescription(){return description;}
+    public String getAcceptMessage(){return acceptMessage;}
+    public String getDeclineMessage(){return declineMessage;}
 }
