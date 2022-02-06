@@ -2,6 +2,7 @@ package game;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,9 +23,12 @@ public class GameEngine {
     private Card currCard;
     private ResourceTracker resourceTracker;
     private int score=0;
+    private Leaderboard leaderboard;
+    private ArrayList<String> decisionList= new ArrayList<>();
 
-    GameEngine(ResourceTracker resourceTracker){
+    GameEngine(ResourceTracker resourceTracker, Leaderboard leaderboard){
         this.resourceTracker=resourceTracker;
+        this.leaderboard=leaderboard;
     }
 
     public void addCard(Card card){
@@ -32,11 +36,23 @@ public class GameEngine {
     }
 
     public void start(){
+        Button startButton=new Button("Start");
+        cardBox.getChildren().addAll(startButton,new Label(leaderboard.getLeaderboardString()));
+        startButton.setOnAction((event5 -> {
+            showFirstCard();
+        }));
+    }
+
+    private void showFirstCard(){
         setNewCard();
     }
 
     private void decisionMade(boolean accepted){
         score++;
+        if (accepted)
+            decisionList.add(currCard.getAcceptMessage());
+        else
+            decisionList.add(currCard.getDeclineMessage());
         Map<Resource,Double> resourcesChange=currCard.getResources(accepted);
         if(resourceTracker.updateResources(resourcesChange))
             setNewCard();
@@ -52,8 +68,23 @@ public class GameEngine {
 
     private void end(){
         cardBox.getChildren().clear();
-        cardBox.getChildren().add(new Label("Game Over \n Your score: "+score));
+        TextField usernameField=new TextField();
+        Button saveButton=new Button("Save");
+        String decisions="Twoje decyzje:\n";
+        for (String decision:decisionList){
+            decisions+=decision+"\n";
+        }
+        cardBox.getChildren().addAll(new Label("Game Over \n Your score: "+score),usernameField,saveButton,new Label(decisions));
+        saveButton.setOnAction((event3 -> {
+            save(new UserScore(usernameField.getText(),score));
+        }));
         return;
+    }
+
+    private void save(UserScore score){
+        leaderboard.addToLeaderboard(score);
+        cardBox.getChildren().clear();
+        cardBox.getChildren().add(new Label(leaderboard.getLeaderboardString()));
     }
 
     private Card getRandomCard(){
