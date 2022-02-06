@@ -15,9 +15,9 @@ public class Leaderboard {
     }
 
     public void loadLeaderboard(){
+        list = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(new File("leaderboard.txt"));
-            list = new ArrayList<>();
             String username;
             int score;
             while (scanner.hasNext()) {

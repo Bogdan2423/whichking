@@ -10,10 +10,11 @@ public class Card {
     private String description;
     private String acceptMessage;
     private String declineMessage;
+    private int imageId;
 
     Card(double militaryOnAccept, double goldOnAccept, double foodOnAccept, double techOnAccept,
          double militaryOnDecline, double goldOnDecline, double foodOnDecline, double techOnDecline,
-         String description, String acceptMessage, String declineMessage){
+         String description, String acceptMessage, String declineMessage, int ImageId){
         resourcesOnAccept.put(Resource.Military,militaryOnAccept);
         resourcesOnAccept.put(Resource.Gold,goldOnAccept);
         resourcesOnAccept.put(Resource.Food,foodOnAccept);
@@ -27,6 +28,7 @@ public class Card {
         this.description=description;
         this.acceptMessage=acceptMessage;
         this.declineMessage=declineMessage;
+        this.imageId=ImageId;
     }
 
 
@@ -46,6 +48,7 @@ public class Card {
         return returnMap;
     }
 
+    public String getImgPath(){return "src/main/resources/cardImage"+imageId+".png";}
     public String getDescription(){return description;}
     public String getAcceptMessage(){return acceptMessage;}
     public String getDeclineMessage(){return declineMessage;}

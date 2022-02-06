@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-import static java.lang.System.out;
 
 public class GameEngine {
     private ArrayList<Card> cards=new ArrayList<>();
@@ -50,9 +50,9 @@ public class GameEngine {
     private void decisionMade(boolean accepted){
         score++;
         if (accepted)
-            decisionList.add(currCard.getAcceptMessage());
+            decisionList.add(currCard.getDescription()+" - "+currCard.getAcceptMessage());
         else
-            decisionList.add(currCard.getDeclineMessage());
+            decisionList.add(currCard.getDescription()+" - "+currCard.getDeclineMessage());
         Map<Resource,Double> resourcesChange=currCard.getResources(accepted);
         if(resourceTracker.updateResources(resourcesChange))
             setNewCard();
@@ -63,7 +63,14 @@ public class GameEngine {
     private void setNewCard(){
         currCard=getRandomCard();
         cardBox.getChildren().clear();
-        cardBox.getChildren().addAll(new Label(currCard.getDescription()),getDecisionBox(currCard));
+        Label descriptionLabel=new Label(currCard.getDescription());
+        //descriptionLabel.setFont(new Font(32));
+        descriptionLabel.setWrapText(true);
+        try {
+            cardBox.getChildren().addAll(new ImageView(new Image(new FileInputStream(currCard.getImgPath()))),
+                    descriptionLabel, getDecisionBox(currCard));
+        }
+        catch (FileNotFoundException ex){}
     }
 
     private void end(){
@@ -74,7 +81,7 @@ public class GameEngine {
         for (String decision:decisionList){
             decisions+=decision+"\n";
         }
-        cardBox.getChildren().addAll(new Label("Game Over \n Your score: "+score),usernameField,saveButton,new Label(decisions));
+        cardBox.getChildren().addAll(new Label("Game Over \n Twój wynik: "+score),usernameField,saveButton,new Label(decisions));
         saveButton.setOnAction((event3 -> {
             save(new UserScore(usernameField.getText(),score));
         }));

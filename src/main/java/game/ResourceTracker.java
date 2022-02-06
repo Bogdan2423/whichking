@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static java.lang.System.out;
-
 public class ResourceTracker {
     private Map<Resource, Double> resources=new LinkedHashMap<>();
 
