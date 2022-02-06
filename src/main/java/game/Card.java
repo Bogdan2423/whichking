@@ -5,13 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Card {
-    private Map<Resource, Integer> resourcesOnAccept=new LinkedHashMap<>();
-    private Map<Resource, Integer> resourcesOnDecline=new LinkedHashMap<>();
+    private Map<Resource, Double> resourcesOnAccept=new LinkedHashMap<>();
+    private Map<Resource, Double> resourcesOnDecline=new LinkedHashMap<>();
     private String description;
     private String acceptMessage;
     private String declineMessage;
 
-    Card(int militaryOnAccept, int goldOnAccept, int foodOnAccept, int techOnAccept, int militaryOnDecline, int goldOnDecline, int foodOnDecline, int techOnDecline,
+    Card(double militaryOnAccept, double goldOnAccept, double foodOnAccept, double techOnAccept,
+         double militaryOnDecline, double goldOnDecline, double foodOnDecline, double techOnDecline,
          String description, String acceptMessage, String declineMessage){
         resourcesOnAccept.put(Resource.Military,militaryOnAccept);
         resourcesOnAccept.put(Resource.Gold,goldOnAccept);
@@ -30,9 +31,9 @@ public class Card {
 
 
 
-    public Map<Resource,Integer> getResources(boolean accepted){
-        Map<Resource,Integer> returnMap=new LinkedHashMap<>();
-        Map<Resource,Integer> resourcesList;
+    public Map<Resource,Double> getResources(boolean accepted){
+        Map<Resource,Double> returnMap=new LinkedHashMap<>();
+        Map<Resource,Double> resourcesList;
         if (accepted)
             resourcesList=resourcesOnAccept;
         else

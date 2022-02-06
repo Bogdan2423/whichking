@@ -6,12 +6,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import static java.lang.System.out;
 
 public class ResourceTracker {
-    private double military=50;
-    private double gold=50;
-    private double food=50;
-    private double tech=50;
+    private Map<Resource, Double> resources=new LinkedHashMap<>();
 
     private HBox resourcesBox;
     private ProgressBar militaryBar = new ProgressBar(0.5);
@@ -28,28 +29,38 @@ public class ResourceTracker {
             resourcesBox=new HBox(militaryImageView,militaryBar,goldImageView,goldBar,foodImageView,foodBar,techImageView,techBar);
         }
         catch (FileNotFoundException ex){}
+
+        resources.put(Resource.Military,50.0);
+        resources.put(Resource.Gold,50.0);
+        resources.put(Resource.Food,50.0);
+        resources.put(Resource.Tech,50.0);
     }
 
-    public boolean updateResources(int military, int gold, int food, int tech){
-        this.military+=military;
-        this.gold+=gold;
-        this.food+=food;
-        this.tech+=tech;
-
-        if (this.military>100){this.military=100;}
-        if (this.gold>100){this.gold=100;}
-        if (this.food>100){this.food=100;}
-        if (this.tech>100){this.tech=100;}
-
-        militaryBar.setProgress(this.military/100);
-        goldBar.setProgress(this.gold/100);
-        foodBar.setProgress(this.food/100);
-        techBar.setProgress(this.tech/100);
-
-        if (this.military==0 || this.gold==0 || this.food==0 || this.tech==0)
-            return false;
-        else
-            return true;
+    public boolean updateResources(Map<Resource,Double> resourcesChange){
+        for (Resource resource :resourcesChange.keySet()){
+            resources.put(resource,resources.get(resource)+resourcesChange.get(resource));
+            if (resources.get(resource)>100)
+                resources.put(resource, 100.0);
+            switch (resource){
+                case Military:
+                    militaryBar.setProgress(resources.get(Resource.Military)/100);
+                    break;
+                case Tech:
+                    techBar.setProgress(resources.get(Resource.Tech)/100);
+                    break;
+                case Gold:
+                    goldBar.setProgress(resources.get(Resource.Gold)/100);
+                    break;
+                case Food:
+                    foodBar.setProgress(resources.get(Resource.Food)/100);
+                    break;
+                default:
+                    break;
+            }
+            if (resources.get(resource)<=0)
+                return false;
+        }
+        return true;
     }
 
     public HBox getResourcesBox(){

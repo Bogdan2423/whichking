@@ -10,9 +10,11 @@ public class App extends Application{
     private double sceneHeight=1000;
 
     public void start(Stage primaryStage) throws Exception {
-        GameEngine engine=new GameEngine();
+        GameEngine engine=new GameEngine(tracker);
         engine.addCard(new Card(10,-20,0,0,
                 0,0,20,20,"lorem ipsum","tak","nie"));
+        engine.addCard(new Card(-10,0,20,0,
+                0,0,0,-20,"dolor sit","tak","nie"));
         engine.start();
         VBox mainBox=new VBox(tracker.getResourcesBox(), engine.getCardBox());
         Scene scene = new Scene(mainBox,sceneWidth,sceneHeight);
