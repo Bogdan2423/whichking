@@ -13,7 +13,7 @@ public class App extends Application{
     public void start(Stage primaryStage) throws Exception {
         GameEngine engine=new GameEngine(tracker,leaderboard);
         engine.addCard(new Card(10,-20,0,0,
-                -20,0,0,0,"Powinnismy zwiekszyć zold dla naszych zolnierzy"
+                -20,0,0,0,"Powinnismy zwiekszyc zold dla naszych zolnierzy"
                 ,"Tak","Nie",0));
         engine.addCard(new Card(-10,-40,0,0,
                 -20,0,0,-20,

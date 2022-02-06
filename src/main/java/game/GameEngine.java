@@ -64,7 +64,7 @@ public class GameEngine {
         currCard=getRandomCard();
         cardBox.getChildren().clear();
         Label descriptionLabel=new Label(currCard.getDescription());
-        //descriptionLabel.setFont(new Font(32));
+        descriptionLabel.setFont(new Font(32));
         descriptionLabel.setWrapText(true);
         try {
             cardBox.getChildren().addAll(new ImageView(new Image(new FileInputStream(currCard.getImgPath()))),
@@ -81,7 +81,7 @@ public class GameEngine {
         for (String decision:decisionList){
             decisions+=decision+"\n";
         }
-        cardBox.getChildren().addAll(new Label("Game Over \n Twój wynik: "+score),usernameField,saveButton,new Label(decisions));
+        cardBox.getChildren().addAll(new Label("Game Over \n Twoj wynik: "+score),usernameField,saveButton,new Label(decisions));
         saveButton.setOnAction((event3 -> {
             save(new UserScore(usernameField.getText(),score));
         }));
